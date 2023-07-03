@@ -22,13 +22,12 @@ button:hover {
     display: flex;
     justify-content: center;
     height: 10vh;
-    padding-top: 1%;
 }
 
 #title-bar-container {
     display: flex;
     align-items: center;
-    width: 96%;
+    width: 90%;
     padding: 1vh 0.01vw 1vh 1vw;
     margin-bottom: 1%;
     background-color: #CEE8ED;

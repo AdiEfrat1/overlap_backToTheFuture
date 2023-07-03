@@ -6,7 +6,12 @@ html {
 }
 
 body {
-    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 97%;
+    padding: calc(0.4vh + 0.4vw);
     margin: 0;
 }
 
@@ -21,36 +26,34 @@ button:hover {
 #website-head-container {
     display: flex;
     justify-content: center;
-    height: 10vh;
-    padding-top: 1%;
+    width: 100%;
+    height: 10%;
 }
 
 #title-bar-container {
     display: flex;
     align-items: center;
-    width: 96%;
+    width: 100%;
     padding: 1vh 0.01vw 1vh 1vw;
-    margin-bottom: 1%;
     background-color: #CEE8ED;
     border-color: #113376;
-    border-radius: 2vh;
+    border-radius: calc(0.5vh + 0.5vw);
 }
 
 #title {
     position: relative;
     margin-left: auto;
     white-space: nowrap;
-    margin-bottom: 0.6vh;
     margin-right: 0.7vw;
     letter-spacing: 0.2vw;
-    font-size: 4vh;
+    font-size: calc(1.5vh + 1.5vw);
     color: #20437F;
     -webkit-text-stroke: 0.03vh #ffffff;
     text-shadow:    -0.05vw 0.2vh 1vh #000000,
-                    0.4vh -0.4vh 0 #24c2ee,
-                    -0.4vh -0.4vh 0 #24c2ee, 
-                    -0.4vh 0.4vh 0 #24c2ee, 
-                    0.4vh 0.4vh 0 #24c2ee;
+                    0.3vh -0.4vh 0 #24c2ee,
+                    -0.3vh -0.4vh 0 #24c2ee, 
+                    -0.3vh 0.4vh 0 #24c2ee, 
+                    0.3vh 0.4vh 0 #24c2ee;
 }
 
 #hello-msg {
@@ -58,11 +61,11 @@ button:hover {
 }
 
 #user-name {
-    font-size: 3vh;
+    font-size: calc(1vh + 1vw);
 }
 
 #last-login {
-    font-size: 1.85vh;
+    font-size: calc(0.5vh + 0.5vw);
 }
 
 #clock-container {
@@ -70,38 +73,36 @@ button:hover {
     justify-content: end;
     height: 90%;
     width: 15%;
-    margin-left: 1%;
+    margin-left: 3%;
 }
 
 #clock-time {
     text-align: center;
     align-self: center;
-    width: 5.5vw;
+    width: 10vw;
     height: 3vh;
-    margin-left: 2%;
-    padding-top: 0.4vh;
+    padding: calc(0.3vh + 0.1vw);
     background-color: #cfedaf;
     box-shadow: -0.05vh 0.3vh 0.5vh -0.1vh #1e7822;
     font-weight: bold;
-    font-size: 2.5vh;
+    font-size: calc(1vh + 1vw);
 }
 
 #clock-btn {
-    width: 30%;
+    width: 10vw;
     height: 100%;
-    margin-left: 1%;
-    padding: 0.1vh;
+    margin-left: 6%;
+    padding: 0;
     background: linear-gradient(180deg, #e2e4e2 6%, #c1c1c1 100%);
     box-shadow: 0.05vw 0.05vh 0.1vh 0.02vh rgba(0, 0, 0, 0.8);
     border-color: #444444;
     font-weight: bold;
-    font-size: 2.6vh;
+    font-size: calc(0.8vh + 0.8vw);
 }
 
 .icon-img {
-    width: 5%;
-    height: 130%;
-    margin-right: -0.5vw;
+    width: 8%;
+    height: 100%;
 }
 
 .bordered {
@@ -110,29 +111,27 @@ button:hover {
 
 #website-body-container {
     display: flex;
-    justify-content: space-evenly;
-    height: 85%;
+    justify-content:space-between;
+    width: 100%;
+    height: 88%;
 }
 
 #details-section {
     text-align: center;
+    height: 100%;
     width: 70%;
-    padding: 2vh 3.5vw;
+    padding: 0 3.5vw;
     background-color: #ebeded;
     border-color: #113376;
-    border-radius: 10vh;
+    border-radius: calc(3vh + 3vw);
     font-weight: bold;
-    font-size: 3vh;
-}
-
-.details-text {
-    margin-top: 1%;
-    margin-bottom: 4%;
+    font-size: calc(1vh + 1vw);
 }
 
 #all-details {
     position: relative;
-    height: 64%;
+    height: 60%;
+    margin-top: 3vh;
     margin-bottom: 0.5%;
     padding: 2vh;
     background-color: #ffffff;
@@ -150,19 +149,24 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
     width: 20%;
-    padding-top: 10%;
-    padding-bottom: 17%;
     background-color: #3FAEBA;
     border-color: #113376;
-    border-radius: 6vh;
+    border-radius: calc(2vh + 2vw);
+}
+
+#btn-list {
+    margin-top: 10%;
+    margin-bottom: 30%;
 }
 
 .side-bar-btn {
     display: block;
-    height: 8vh;
+    height: 7vh;
     width: 13vw;
     margin-top: 2vh;
+    padding: 0;
     color: #ffffff;
     background: #186573;
     background:
@@ -171,14 +175,14 @@ button:hover {
                 linear-gradient(180deg, rgba(5, 247, 255, 1) 0%, rgba(13, 247, 255, 0.4) 16%, rgba(13, 136, 158, 1) 22%);
     box-shadow: -0.2vw 0.2vh 0.5vh 0.1vh rgba(0, 0, 0, 0.8),
                 0.1vw 0.1vh 0.2vh 0.05vh rgba(0, 0, 0, 0.8);
-    border-radius: 2vh;
-    border-width: 0vh;
+    border-radius: calc(2vh + 0.1vw);
+    border-width: 0;
     font-size: calc(1vh + 1vw);
 }
 
 .active-side-btn {
     background: #0c7285;
-    border: 0.5vh solid white;
+    border: calc(0.2vh + 0.2vw) solid white;
 }
 
 #young-table {
@@ -187,7 +191,7 @@ button:hover {
     width: 90%;
     height: 20%;
     margin: auto;
-    border-spacing: 0.3vh;
+    border-spacing: calc(0.1vh + 0.1vw);
 }
 
 #young-table-head {
@@ -221,12 +225,13 @@ button:hover {
 }
 
 #young-table td, th {
-    padding: 1vh;
+    padding: 1%;
+    padding-right: 2%;
 }
 
 #all-details-content {
     margin-top: 4vh;
-    font-size: 3vh;
+    font-size: calc(1vh + 1vw);
 }
 
 #specific-details-content {
@@ -236,7 +241,7 @@ button:hover {
     height: 80%;
     margin-top: 1.5vh;
     margin-right: 2%;
-    font-size: 4vh;
+    font-size: calc(1.4vh + 1.4vw);
     font-weight: bold;
 }
 
@@ -244,7 +249,7 @@ button:hover {
     display: flex;
     flex-wrap: nowrap;
     justify-content: right;
-    margin-bottom: 1vh;
+    margin-bottom: 0.5vh;
 }
 
 .young-details-line div {
@@ -257,10 +262,11 @@ button:hover {
     top: 0.8vh;
     width: 6vw;
     height: 5vh;
+    padding: 0;
     color: white;
     background-color: #3f45b0;
-    border: 0.4vh solid black;
-    font-size:  2vh;
+    border: calc(0.2vh + 0.2vw) solid black;
+    font-size: calc(0.8vh + 0.8vw);
 }
 
 #multi-selection-btn.active-multi-select {
@@ -274,8 +280,8 @@ button:hover {
 .young-sort-btn {
     width: 0;
     height: 0;
-    border-left: 1vh solid transparent;
-    border-right: 1vh solid transparent;
+    border-left: 0.7vw solid transparent;
+    border-right: 0.7vw solid transparent;
     cursor: pointer;
 }
 
@@ -300,6 +306,7 @@ button:hover {
 }
 
 .tab-img {
-    height: 100%;
+    margin-top: 1.5vh;
+    height: 96%;
     width: 100%;
 }
