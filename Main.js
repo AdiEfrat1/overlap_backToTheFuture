@@ -115,6 +115,7 @@ const generateDetailsContainers = () => {
 const pressedSideBtn = (event) => {
   setActiveSideBtn(event);
   clearDetails();
+  chosenYoungList = [];
 
   const pressedBtn = event.target;
   const pressedBtnID = pressedBtn.getAttribute('id');

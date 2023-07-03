@@ -45,19 +45,24 @@ button:hover {
     margin-left: auto;
     white-space: nowrap;
     margin-right: 0.7vw;
+}
+
+#title-text {
     letter-spacing: 0.2vw;
-    font-size: calc(1.5vh + 1.5vw);
+    width: 10vw;
+    font-size: calc(1.7vh + 1.7vw);
     color: #20437F;
     -webkit-text-stroke: 0.03vh #ffffff;
-    text-shadow:    -0.05vw 0.2vh 1vh #000000,
-                    0.3vh -0.4vh 0 #24c2ee,
-                    -0.3vh -0.4vh 0 #24c2ee, 
-                    -0.3vh 0.4vh 0 #24c2ee, 
-                    0.3vh 0.4vh 0 #24c2ee;
+    text-shadow: -0.05vw 0.2vh 1vh #000000,
+        0.2vw -0.3vh 0 #24c2ee,
+        -0.2vw -0.3vh 0 #24c2ee,
+        -0.2vw 0.3vh 0 #24c2ee,
+        0.2vw 0.3vh 0 #24c2ee;
 }
 
 #hello-msg {
     font-weight: bold;
+    white-space: nowrap;
 }
 
 #user-name {
@@ -65,7 +70,7 @@ button:hover {
 }
 
 #last-login {
-    font-size: calc(0.5vh + 0.5vw);
+    font-size: calc(0.60vh + 0.60vw);
 }
 
 #clock-container {
@@ -101,7 +106,6 @@ button:hover {
 }
 
 .icon-img {
-    width: 8%;
     height: 100%;
 }
 
@@ -111,7 +115,7 @@ button:hover {
 
 #website-body-container {
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
     width: 100%;
     height: 88%;
 }
@@ -170,15 +174,17 @@ button:hover {
     color: #ffffff;
     background: #186573;
     background:
-                linear-gradient(to bottom right, rgba(228,245,252,0) 0%,rgba(191,232,249,0) 50%,rgba(13, 136, 158, 1) 51%, rgba(13, 136, 158, 1) 100%),
-                linear-gradient(to bottom left, rgba(228,245,252,0) 0%,rgba(191,232,249,0) 50%,rgba(13, 136, 158, 1) 51%, rgba(13, 136, 158, 1) 100%),
-                linear-gradient(180deg, rgba(5, 247, 255, 1) 0%, rgba(13, 247, 255, 0.4) 16%, rgba(13, 136, 158, 1) 22%);
+        linear-gradient(to bottom right, rgba(228, 245, 252, 0) 0%, rgba(191, 232, 249, 0) 50%, rgba(13, 136, 158, 1) 51%, rgba(13, 136, 158, 1) 100%),
+        linear-gradient(to bottom left, rgba(228, 245, 252, 0) 0%, rgba(191, 232, 249, 0) 50%, rgba(13, 136, 158, 1) 51%, rgba(13, 136, 158, 1) 100%),
+        linear-gradient(180deg, rgba(5, 247, 255, 1) 0%, rgba(13, 247, 255, 0.4) 16%, rgba(13, 136, 158, 1) 22%);
     box-shadow: -0.2vw 0.2vh 0.5vh 0.1vh rgba(0, 0, 0, 0.8),
-                0.1vw 0.1vh 0.2vh 0.05vh rgba(0, 0, 0, 0.8);
+        0.1vw 0.1vh 0.2vh 0.05vh rgba(0, 0, 0, 0.8);
     border-radius: calc(2vh + 0.1vw);
     border-width: 0;
     font-size: calc(1vh + 1vw);
 }
+
+
 
 .active-side-btn {
     background: #0c7285;
@@ -224,7 +230,8 @@ button:hover {
     display: flex;
 }
 
-#young-table td, th {
+#young-table td,
+th {
     padding: 1%;
     padding-right: 2%;
 }
