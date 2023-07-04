@@ -277,10 +277,6 @@ th {
     font-size: calc(0.8vh + 0.8vw);
 }
 
-#multi-selection-btn.active-multi-select {
-    background-color: #6b71de;
-}
-
 .sort-btns-container {
     margin-right: auto;
 }

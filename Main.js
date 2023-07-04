@@ -30,12 +30,12 @@ const YOUNGSTERS = {
 
 const YOUNG_ID = 'מספר צעיר';
 const YOUNG_NAME = 'שם הצעיר';
-const ACTIVE_MULTI_SELECT_CLASS = 'active-multi-select';
 const ACTIVE_SIDE_BTN_CLASS = 'active-side-btn';
 const CHOSEN_YOUNG_CLASS = 'chosen-young';
 
-let chosenYoungList = [];
+let chosenYoungList = new Array();
 let realTimeClock = false;
+let activeMultiSelect = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   updateLastLogin(currTime());
@@ -116,6 +116,7 @@ const pressedSideBtn = (event) => {
   setActiveSideBtn(event);
   clearDetails();
   chosenYoungList = [];
+  activeMultiSelect = false;
 
   const pressedBtn = event.target;
   const pressedBtnID = pressedBtn.getAttribute('id');
@@ -228,9 +229,8 @@ const generateYoungDetails = () => {
 
 const generateYoungSpecific = (event) => {
   const chosenCell = event.target;
-  const multiSelectBtn = document.getElementById('multi-selection-btn');
 
-  if (!multiSelectBtn.classList.contains(ACTIVE_MULTI_SELECT_CLASS)) {
+  if (!activeMultiSelect) {
     removeAllOfClass(CHOSEN_YOUNG_CLASS);
     chosenYoungList = [];
   }
@@ -274,37 +274,39 @@ const updateYoungSpecific = () => {
 
   chosenYoungList.forEach((chosenRowId) => {
     const chosenYoung = YOUNGSTERS.list.find((youngster) => youngster[YOUNG_ID] === chosenRowId);
-
     const chosenDetails = document.createElement('div');
     chosenDetails.classList.add('young-details-line');
 
-    Object.keys(chosenYoung).forEach((attribute) => {
-      if (!YOUNGSTERS.tableAttributes.includes(attribute)) {
-        const attrText = document.createElement('div');
-        attrText.appendChild(document.createTextNode(`${attribute}: ${chosenYoung[attribute]}`));
-        chosenDetails.appendChild(attrText);
-      }
-    });
+    if (chosenYoung) {
+      Object.keys(chosenYoung).forEach((attribute) => {
+        if (!YOUNGSTERS.tableAttributes.includes(attribute)) {
+          const attrText = document.createElement('div');
+          attrText.appendChild(document.createTextNode(`${attribute}: ${chosenYoung[attribute]}`));
+          chosenDetails.appendChild(attrText);
+        }
+      });
 
-    const nameText = document.createElement('div');
-    nameText.appendChild(document.createTextNode(`שם: ${chosenYoung[YOUNG_NAME]}`));
-    chosenDetails.appendChild(nameText);
-
-    content.appendChild(chosenDetails);
+      const nameText = document.createElement('div');
+      nameText.appendChild(document.createTextNode(`שם: ${chosenYoung[YOUNG_NAME]}`));
+      chosenDetails.appendChild(nameText);
+      content.appendChild(chosenDetails);
+    }
   });
 };
 
 const toggleMultiSelect = (event) => {
   const multiSelectBtn = event.target;
 
-  if (multiSelectBtn.classList.contains(ACTIVE_MULTI_SELECT_CLASS)) {
+  if (activeMultiSelect) {
     removeChosenYoungButLast();
     updateYoungSpecific();
 
-    multiSelectBtn.classList.remove(ACTIVE_MULTI_SELECT_CLASS);
+    multiSelectBtn.textContent = '+';
   } else {
-    multiSelectBtn.classList.add(ACTIVE_MULTI_SELECT_CLASS);
+    multiSelectBtn.textContent = '-';
   }
+
+  activeMultiSelect = !activeMultiSelect;
 };
 
 const sortYoungRows = (event) => {
