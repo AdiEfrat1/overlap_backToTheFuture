@@ -41,16 +41,15 @@ button:hover {
 }
 
 #title {
-    position: relative;
     margin-left: auto;
     white-space: nowrap;
     margin-right: 0.7vw;
 }
 
 #title-text {
+    max-width: 2vw;
     letter-spacing: 0.2vw;
-    width: 10vw;
-    font-size: calc(1.7vh + 1.7vw);
+    font-size: calc(2vh + 3vw);
     color: #20437F;
     -webkit-text-stroke: 0.03vh #ffffff;
     text-shadow: -0.05vw 0.2vh 1vh #000000,
@@ -82,11 +81,13 @@ button:hover {
 }
 
 #clock-time {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     align-self: center;
     width: 10vw;
     height: 3vh;
-    padding: calc(0.3vh + 0.1vw);
+    padding: calc(0.1vh + 0.1vw);
     background-color: #cfedaf;
     box-shadow: -0.05vh 0.3vh 0.5vh -0.1vh #1e7822;
     font-weight: bold;
@@ -106,7 +107,7 @@ button:hover {
 }
 
 .icon-img {
-    height: 100%;
+    height: calc(2.3vh + 1.4vw);
 }
 
 .bordered {
