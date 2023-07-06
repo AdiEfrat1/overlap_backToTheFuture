@@ -116,7 +116,7 @@ const pressedSideBtn = (event) => {
   setActiveSideBtn(event);
   clearDetails();
   chosenYoungList = [];
-  activeMultiSelect = false;
+  activeMultiSelect = false;0
 
   const pressedBtn = event.target;
   const pressedBtnID = pressedBtn.getAttribute('id');
