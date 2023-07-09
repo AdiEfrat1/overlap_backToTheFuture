@@ -10,5 +10,7 @@ public class HelloWorld {
         });
 
         get("/world", (req, res) -> "World");
+
+        post("/mister", (request, response) -> "Mr." + request.body());
     }
 }

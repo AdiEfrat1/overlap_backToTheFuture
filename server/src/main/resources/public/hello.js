@@ -1,26 +1,44 @@
-const xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://api.example.com/data', true);
+const url = 'http://127.0.0.1:4567';
 
-xhr.onload = function() {
-    if (xhr.status === 200) {
-      const response = JSON.parse(xhr.responseText);
-      console.log(response);
-
-      return response;
-    }
-  };
-  
-  xhr.onerror = function() {
-    console.log('Request failed.');
-  };
-
-document.addEventListener('DOMContentLoaded', () => {
-    const msg = getMessageFromServer();
-    addMessageToHtmlMessage();
+document.addEventListener('DOMContentLoaded', async () => {
+    const msg = await getMisterWithVariable('Adi');
+    addMessageToHtmlMessage(msg);
 });
 
-const getMessageFromServer = () => {
-    return xhr.send();
+const getMessageFromServer = async () => {
+    try {
+        const response = await fetch(`${url}/world`);
+        
+        if (response.ok) {
+            const data = await response.text();
+            console.log(data);
+
+            return data;
+        }
+
+    } catch (error) {
+        console.log('Request failed:', error);
+    }
+};
+
+const getMisterWithVariable = async (name) => {
+    try {
+        const response = await fetch(`${url}/mister`, {
+            method : "POST",
+            headers: {'Content-Type': 'text/html'}, 
+            body: name,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            console.log(data);
+    
+            return data;
+        }
+
+    } catch (error) {
+        console.log('Request failed:', error);
+    }
 };
 
 const addMessageToHtmlMessage = (msg) => {
