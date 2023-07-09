@@ -2,6 +2,13 @@ import static spark.Spark.*;
 
 public class HelloWorld {
     public static void main(String[] args) {
-        get("/hello", (req, res) -> "Hello World");
+        staticFileLocation("/public");
+
+        get("/hello", (req, res) -> {
+            res.redirect("hello.html");
+            return null;
+        });
+
+        get("/world", (req, res) -> "World");
     }
 }
