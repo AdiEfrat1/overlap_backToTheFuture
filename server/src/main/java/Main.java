@@ -1,4 +1,5 @@
-import RH.YoungController;
+import DB.YoungDB;
+import RH.YoungRH;
 
 import static spark.Spark.*;
 
@@ -6,13 +7,14 @@ public class Main {
     public static void main(String[] args) {
         staticFileLocation("/public");
 
+        YoungDB youngDB = new YoungDB();
+
         get("/", (req, res) -> {
             res.redirect("Main.html");
             return null;
         });
 
-        YoungController youngController = new YoungController();
-
-        youngController.controller();
+        YoungRH youngRH = new YoungRH();
+        youngRH.rh();
     }
 }

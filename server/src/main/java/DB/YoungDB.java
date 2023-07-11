@@ -11,7 +11,7 @@ public class YoungDB {
     public YoungDB() {
         this.youngs = new ArrayList<>();
 
-        youngs.add(
+        this.youngs.add(
                 new Young(
                         1,
                         "חבר פרבר",
@@ -19,7 +19,7 @@ public class YoungDB {
                         "058-5675444",
                         "משחקי מחשב",
                         "הארי פוטר"));
-        youngs.add(
+        this.youngs.add(
                 new Young(
                         46,
                         "עדי שטיינר",
@@ -27,7 +27,7 @@ public class YoungDB {
                         "051-1234567",
                         "בילויים",
                         "חדווא 2"));
-        youngs.add(
+        this.youngs.add(
                 new Young(
                         99,
                         "סאני סימן-טוב",
@@ -35,7 +35,7 @@ public class YoungDB {
                         "012-1234567",
                         "טניס",
                         "תלמוד בבלי"));
-        youngs.add(
+        this.youngs.add(
                 new Young(
                         9,
                         "עדי אפרת",
