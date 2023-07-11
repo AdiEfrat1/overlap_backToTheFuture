@@ -1,3 +1,5 @@
+import RH.YoungController;
+
 import static spark.Spark.*;
 
 public class Main {
@@ -9,8 +11,8 @@ public class Main {
             return null;
         });
 
-        path("/young", () -> {
+        YoungController youngController = new YoungController();
 
-        });
+        youngController.controller();
     }
 }
