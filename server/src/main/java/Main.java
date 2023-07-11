@@ -8,5 +8,9 @@ public class Main {
             res.redirect("Main.html");
             return null;
         });
+
+        path("/young", () -> {
+
+        });
     }
 }
