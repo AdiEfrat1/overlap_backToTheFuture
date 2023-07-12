@@ -1,17 +1,26 @@
 package BL;
 
 import DAL.Young;
+import DAL.YoungDTO;
 import DB.YoungDB;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class YoungBL {
 
     private YoungDB youngDB = new YoungDB();
 
-    public ArrayList<Young> getAllYoung() {
-        return this.youngDB.youngs;
+    public ArrayList<YoungDTO> getAllYoung() {
+        return this.youngDB.youngs
+                .stream()
+                .map((young) -> new YoungDTO(
+                        young.id(),
+                        young.name(),
+                        young.city(),
+                        young.phone()))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Young getSpecificFullDetails(int id) {
