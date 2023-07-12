@@ -28,8 +28,15 @@ const YOUNGSTERS = {
   ],
 };
 
-const YOUNG_ID = 'מספר צעיר';
-const YOUNG_NAME = 'שם הצעיר';
+const YOUNG_DISPLAY_NAMES = {
+  "id": "מספר צעיר",
+  "name": "שם הצעיר",
+  "city": "מיקום מגורים",
+  "phone": "טלפון",
+  "hobby": "תחביב",
+  "book": "ספר",
+}
+
 const ACTIVE_SIDE_BTN_CLASS = 'active-side-btn';
 const CHOSEN_YOUNG_CLASS = 'chosen-young';
 
@@ -116,7 +123,7 @@ const pressedSideBtn = (event) => {
   setActiveSideBtn(event);
   clearDetails();
   chosenYoungList = [];
-  activeMultiSelect = false;0
+  activeMultiSelect = false;
 
   const pressedBtn = event.target;
   const pressedBtnID = pressedBtn.getAttribute('id');
@@ -239,7 +246,7 @@ const generateYoungSpecific = (event) => {
   const chosenID = parseInt(chosenRow.childNodes[0].innerText);
   const index = chosenYoungList.indexOf(chosenID);
 
-  if (index !== -1) {
+  if (index === -1) {
     chosenYoungList.splice(index, 1);
   }
 
@@ -273,7 +280,7 @@ const updateYoungSpecific = () => {
   content.innerText = '';
 
   chosenYoungList.forEach((chosenRowId) => {
-    const chosenYoung = YOUNGSTERS.list.find((youngster) => youngster[YOUNG_ID] === chosenRowId);
+    const chosenYoung = YOUNGSTERS.list.find((youngster) => youngster[YOUNG_DISPLAY_NAMES["id"]] === chosenRowId);
     const chosenDetails = document.createElement('div');
     chosenDetails.classList.add('young-details-line');
 
@@ -287,7 +294,7 @@ const updateYoungSpecific = () => {
       });
 
       const nameText = document.createElement('div');
-      nameText.appendChild(document.createTextNode(`שם: ${chosenYoung[YOUNG_NAME]}`));
+      nameText.appendChild(document.createTextNode(`שם: ${chosenYoung[YOUNG_DISPLAY_NAMES["name"]]}`));
       chosenDetails.appendChild(nameText);
       content.appendChild(chosenDetails);
     }
@@ -346,7 +353,7 @@ const displaySortedYoungRows = (event) => {
   sortedYoungs.forEach((youngster) => {
     const tr = document.createElement('tr');
 
-    if (chosenYoungList.includes(youngster[YOUNG_ID])) {
+    if (chosenYoungList.includes(youngster[YOUNG_DISPLAY_NAMES["id"]])) {
       tr.classList.add('chosen-young');
     }
 
