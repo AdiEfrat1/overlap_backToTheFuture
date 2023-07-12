@@ -30,7 +30,16 @@ public class YoungRH {
 
                 return null;
             });
-            delete("/remove/:id", (req, res) -> null);
+            delete("/remove/:id", (req, res) -> {
+                try {
+                    this.youngBL.removeYoung(Integer.parseInt(req.params("id")));
+                } catch (Exception e) {
+                    res.status(500);
+                    res.body("Error when trying to remove young");
+                }
+
+                return null;
+            });
             get("/all", (req, res) -> gson.toJson(this.youngBL.getAllYoung()));
             get("/fullDetails/:id", (req, res) -> {
                 try {
