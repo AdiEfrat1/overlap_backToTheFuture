@@ -20,12 +20,22 @@ public class YoungRH {
         Gson gson = builder.create();
 
         path("/young", () -> {
-            post("/add/:id", (req, res) -> null);
+            post("/add", (req, res) -> {
+                try {
+                    this.youngBL.addYoung(gson.fromJson(req.body(), Young.class));
+                } catch (Exception e) {
+                    res.status(500);
+                    res.body("Error when trying to add young");
+                }
+
+                return null;
+            });
             delete("/remove/:id", (req, res) -> null);
             get("/all", (req, res) -> gson.toJson(this.youngBL.getAllYoung()));
             get("/fullDetails/:id", (req, res) -> {
                 try {
-                    Young young = this.youngBL.getSpecificFullDetails(Integer.parseInt(req.params("id")));
+                    Young young = this.youngBL
+                            .getSpecificFullDetails(Integer.parseInt(req.params("id")));
 
                     return gson.toJson(young);
                 } catch (NoSuchElementException e) {
