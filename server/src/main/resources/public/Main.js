@@ -1,32 +1,4 @@
-const YOUNGSTERS = {
-  tableAttributes: ['מספר צעיר', 'שם הצעיר', 'מיקום מגורים', 'טלפון'],
-  list: [
-    {
-      'מספר צעיר': 1,
-      'שם הצעיר': 'חבר פרבר',
-      'מיקום מגורים': 'פני חבר',
-      'טלפון': '058-5675444',
-      'תחביב': 'משחקי מחשב',
-      'ספר': 'הארי פוטר',
-    },
-    {
-      'מספר צעיר': 46,
-      'שם הצעיר': 'עדי שטיינר',
-      'מיקום מגורים': 'להבים',
-      'טלפון': '051-1234567',
-      'תחביב': 'בילויים',
-      'ספר': 'חדווא 2',
-    },
-    {
-      'מספר צעיר': 99,
-      'שם הצעיר': 'סאני סימן-טוב',
-      'מיקום מגורים': 'חולון',
-      'טלפון': '012-1234567',
-      'תחביב': 'טניס',
-      'ספר': 'תלמוד בבלי',
-    },
-  ],
-};
+import * as api from './api.mjs';
 
 const YOUNG_DISPLAY_NAMES = {
   "id": "מספר צעיר",
@@ -35,7 +7,10 @@ const YOUNG_DISPLAY_NAMES = {
   "phone": "טלפון",
   "hobby": "תחביב",
   "book": "ספר",
-}
+};
+
+const TABLE_ATTRIBUTES = ["id", "name", "city", "phone"];
+const SPECIFIC_ATTRIBUTES = ["book", "hobby", "name"]; 
 
 const ACTIVE_SIDE_BTN_CLASS = 'active-side-btn';
 const CHOSEN_YOUNG_CLASS = 'chosen-young';
@@ -158,7 +133,7 @@ const generateTabImage = (tabName) => {
   detailsSection.appendChild(tabImg);
 };
 
-const generateYoungDetails = () => {
+const generateYoungDetails = async () => {
   generateDetailsContainers();
 
   const content = document.getElementById('all-details-content');
@@ -178,7 +153,9 @@ const generateYoungDetails = () => {
 
   const headerRow = document.createElement('tr');
 
-  YOUNGSTERS.tableAttributes.forEach((attribute) => {
+  const allYoungs = await api.getAllYoungs(); 
+
+  TABLE_ATTRIBUTES.forEach((attribute) => {
     const header = document.createElement('th');
 
     const headerContent = document.createElement('div');
@@ -200,7 +177,7 @@ const generateYoungDetails = () => {
     sortBtnsContainer.appendChild(sortUpBtn);
     sortBtnsContainer.appendChild(sortDownBtn);
 
-    headerContent.appendChild(document.createTextNode(attribute));
+    headerContent.appendChild(document.createTextNode(YOUNG_DISPLAY_NAMES[attribute]));
     headerContent.appendChild(sortBtnsContainer);
 
     header.appendChild(headerContent);
@@ -214,17 +191,15 @@ const generateYoungDetails = () => {
   const tbody = document.createElement('tbody');
   tbody.setAttribute('id', 'young-table-body');
 
-  YOUNGSTERS.list.forEach((youngster) => {
+  allYoungs.forEach((youngster) => {
     const tr = document.createElement('tr');
 
     Object.keys(youngster).forEach((key) => {
-      if (YOUNGSTERS.tableAttributes.includes(key)) {
-        const td = document.createElement('td');
-        td.appendChild(document.createTextNode(youngster[key]));
-        td.addEventListener("click", generateYoungSpecific);
+      const td = document.createElement('td');
+      td.appendChild(document.createTextNode(youngster[key]));
+      td.addEventListener("click", generateYoungSpecific);
 
-        tr.appendChild(td);
-      }
+      tr.appendChild(td);
     });
 
     tbody.appendChild(tr);
@@ -279,23 +254,18 @@ const updateYoungSpecific = () => {
   const content = document.getElementById('specific-details-content');
   content.innerText = '';
 
-  chosenYoungList.forEach((chosenRowId) => {
-    const chosenYoung = YOUNGSTERS.list.find((youngster) => youngster[YOUNG_DISPLAY_NAMES["id"]] === chosenRowId);
+  chosenYoungList.forEach(async (chosenRowId) => {
+    const chosenYoung = await api.getDetailedYoung(chosenRowId);
     const chosenDetails = document.createElement('div');
     chosenDetails.classList.add('young-details-line');
 
     if (chosenYoung) {
-      Object.keys(chosenYoung).forEach((attribute) => {
-        if (!YOUNGSTERS.tableAttributes.includes(attribute)) {
-          const attrText = document.createElement('div');
-          attrText.appendChild(document.createTextNode(`${attribute}: ${chosenYoung[attribute]}`));
-          chosenDetails.appendChild(attrText);
-        }
+      SPECIFIC_ATTRIBUTES.forEach((attribute) => {
+        const attrText = document.createElement('div');
+        attrText.appendChild(document.createTextNode(`${YOUNG_DISPLAY_NAMES[attribute]}: ${chosenYoung[attribute]}`));
+        chosenDetails.appendChild(attrText);
       });
 
-      const nameText = document.createElement('div');
-      nameText.appendChild(document.createTextNode(`שם: ${chosenYoung[YOUNG_DISPLAY_NAMES["name"]]}`));
-      chosenDetails.appendChild(nameText);
       content.appendChild(chosenDetails);
     }
   });
@@ -316,13 +286,19 @@ const toggleMultiSelect = (event) => {
   activeMultiSelect = !activeMultiSelect;
 };
 
-const sortYoungRows = (event) => {
+const sortYoungRows = async (event) => {
   const sortBtn = event.target;
   const sortProperty = sortBtn.getAttribute('sort-property');
 
-  const sortedYoungs = YOUNGSTERS.list.sort((a, b) => {
-    propA = a[sortProperty].toString();
-    propB = b[sortProperty].toString();
+  const allYoungs = await api.getAllYoungs();
+
+  const sortedYoungs = allYoungs.sort((a, b) => {
+    const propA = a[sortProperty];
+    const propB = b[sortProperty]; 
+
+    if (sortProperty === "id") {
+      return sortBtn.classList.contains('sort-up') ? propA - propB : propB - propA;
+    }
 
     return sortBtn.classList.contains('sort-up') ? propA.localeCompare(propB) : propB.localeCompare(propA);
   });
@@ -344,8 +320,8 @@ const setYoungSortBtnActive = (event) => {
   pressedActive.classList.add(ACTIVE_SORT);
 };
 
-const displaySortedYoungRows = (event) => {
-  const sortedYoungs = sortYoungRows(event);
+const displaySortedYoungRows = async (event) => {
+  const sortedYoungs = await sortYoungRows(event);
 
   const tbody = document.getElementById('young-table-body');
   tbody.innerHTML = '';
@@ -358,7 +334,7 @@ const displaySortedYoungRows = (event) => {
     }
 
     Object.keys(youngster).forEach((key) => {
-      if (YOUNGSTERS.tableAttributes.includes(key)) {
+      if (TABLE_ATTRIBUTES.includes(key)) {
         const td = document.createElement('td');
         td.appendChild(document.createTextNode(youngster[key]));
         td.addEventListener("click", generateYoungSpecific);

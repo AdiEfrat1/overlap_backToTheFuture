@@ -34,7 +34,7 @@ export const addNewYoung = async (young) => {
     try {
         await fetch(`${SERVER_URL}/young/add`, {
             method : "POST",
-            headers: {'Content-Type': 'text/html'}, 
+            headers: {'Content-Type': 'application/json'}, 
             body: JSON.stringify(young),
         });
 
@@ -47,7 +47,7 @@ export const removeYoung = async (id) => {
     try {
         await fetch(`${SERVER_URL}/young/remove/${id}`, {
             method : "DELETE",
-            headers: {'Content-Type': 'text/html'}, 
+            headers: {'Content-Type': 'application/json'}, 
         });
         
     } catch (error) {
