@@ -55,7 +55,9 @@ const toggleRealTimeClock = (event) => {
     clearInterval(clockInteval);
     clockBtn.innerText = 'הפעל';
   } else {
-    clockInteval = setInterval('updateClock(currTime())', 1000);
+    var clockInteval = setInterval(function() {
+      updateClock(currTime());
+    }, 1000);
     clockBtn.innerText = 'הפסק';
   }
 
