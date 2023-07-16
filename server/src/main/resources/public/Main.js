@@ -19,6 +19,8 @@ let chosenYoungList = new Array();
 let realTimeClock = false;
 let activeMultiSelect = false;
 
+var clockIntervalId;
+
 document.addEventListener('DOMContentLoaded', () => {
   updateLastLogin(currTime());
   updateClock(currTime());
@@ -52,10 +54,10 @@ const toggleRealTimeClock = (event) => {
   const clockBtn = event.target;
 
   if (realTimeClock) {
-    clearInterval(clockInteval);
+    clearInterval(clockIntervalId);
     clockBtn.innerText = 'הפעל';
   } else {
-    var clockInteval = setInterval(function() {
+    clockIntervalId = setInterval(function() {
       updateClock(currTime());
     }, 1000);
     clockBtn.innerText = 'הפסק';
