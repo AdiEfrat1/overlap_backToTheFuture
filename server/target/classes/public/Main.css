@@ -216,6 +216,7 @@ button:hover {
 #young-table-body {
     background-color: #c9c9c9;
     cursor: pointer;
+    overflow-y: scroll;
 }
 
 
@@ -231,8 +232,7 @@ button:hover {
     display: flex;
 }
 
-#young-table td,
-th {
+#young-table td, th {
     padding: 1%;
     padding-right: 2%;
 }
