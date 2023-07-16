@@ -42,10 +42,10 @@ public class YoungRH {
                 return null;
             });
             get("/all", (req, res) -> gson.toJson(this.youngBL.getAllYoung()));
-            get("/fullDetails/:id", (req, res) -> {
+            get("/:id", (req, res) -> {
                 try {
                     Young young = this.youngBL
-                            .getSpecificFullDetails(Integer.parseInt(req.params("id")));
+                            .getSpecific(Integer.parseInt(req.params("id")));
 
                     return gson.toJson(young);
                 } catch (NoSuchElementException e) {

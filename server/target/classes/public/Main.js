@@ -198,9 +198,9 @@ const generateYoungDetails = async () => {
   allYoungs.forEach((youngster) => {
     const tr = document.createElement('tr');
 
-    Object.keys(youngster).forEach((key) => {
+    TABLE_ATTRIBUTES.forEach((attribute) => {
       const td = document.createElement('td');
-      td.appendChild(document.createTextNode(youngster[key]));
+      td.appendChild(document.createTextNode(youngster[attribute]));
       td.addEventListener("click", generateYoungSpecific);
 
       tr.appendChild(td);

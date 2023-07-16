@@ -17,7 +17,7 @@ export const getAllYoungs = async () => {
 
 export const getDetailedYoung = async (id) => {
     try {
-        const response = await fetch(`${SERVER_URL}/youngs/fullDetails/${id}`);
+        const response = await fetch(`${SERVER_URL}/youngs/${id}`);
 
         if (response.ok) {
             const data = await response.json();

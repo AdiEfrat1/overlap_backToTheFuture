@@ -12,18 +12,11 @@ public class YoungBL {
 
     private YoungDB youngDB = new YoungDB();
 
-    public ArrayList<YoungDTO> getAllYoung() {
-        return this.youngDB.youngs
-                .stream()
-                .map((young) -> new YoungDTO(
-                        young.id(),
-                        young.name(),
-                        young.city(),
-                        young.phone()))
-                .collect(Collectors.toCollection(ArrayList::new));
+    public ArrayList<Young> getAllYoung() {
+        return this.youngDB.youngs;
     }
 
-    public Young getSpecificFullDetails(int id) {
+    public Young getSpecific(int id) {
         return this.youngDB.youngs.stream()
                 .filter((young) -> young.id() == id).findFirst()
                 .orElseThrow(NoSuchElementException::new);
