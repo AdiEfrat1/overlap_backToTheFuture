@@ -20,7 +20,7 @@ public class YoungRH {
 
         Gson gson = builder.create();
 
-        path("/young", () -> {
+        path("/youngs", () -> {
             post("/add", (req, res) -> {
                 try {
                     this.youngBL.addYoung(gson.fromJson(req.body(), Young.class));

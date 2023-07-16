@@ -19,7 +19,7 @@ let chosenYoungList = new Array();
 let realTimeClock = false;
 let activeMultiSelect = false;
 
-var clockIntervalId;
+let clockIntervalId;
 
 document.addEventListener('DOMContentLoaded', () => {
   updateLastLogin(currTime());

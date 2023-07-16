@@ -2,7 +2,7 @@ const SERVER_URL = 'http://localhost:4567';
 
 export const getAllYoungs = async () => {
     try {
-        const response = await fetch(`${SERVER_URL}/young/all`);
+        const response = await fetch(`${SERVER_URL}/youngs/all`);
 
         if (response.ok) {
             const data = await response.json();
@@ -17,7 +17,7 @@ export const getAllYoungs = async () => {
 
 export const getDetailedYoung = async (id) => {
     try {
-        const response = await fetch(`${SERVER_URL}/young/fullDetails/${id}`);
+        const response = await fetch(`${SERVER_URL}/youngs/fullDetails/${id}`);
 
         if (response.ok) {
             const data = await response.json();
@@ -32,7 +32,7 @@ export const getDetailedYoung = async (id) => {
 
 export const addNewYoung = async (young) => {
     try {
-        await fetch(`${SERVER_URL}/young/add`, {
+        await fetch(`${SERVER_URL}/youngs/add`, {
             method : "POST",
             headers: {'Content-Type': 'application/json'}, 
             body: JSON.stringify(young),
@@ -45,7 +45,7 @@ export const addNewYoung = async (young) => {
 
 export const removeYoung = async (id) => {
     try {
-        await fetch(`${SERVER_URL}/young/remove/${id}`, {
+        await fetch(`${SERVER_URL}/youngs/remove/${id}`, {
             method : "DELETE",
             headers: {'Content-Type': 'application/json'}, 
         });
