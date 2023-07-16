@@ -334,7 +334,7 @@ const displaySortedYoungRows = async (event) => {
   sortedYoungs.forEach((youngster) => {
     const tr = document.createElement('tr');
 
-    if (chosenYoungList.includes(youngster[YOUNG_DISPLAY_NAMES["id"]])) {
+    if (chosenYoungList.includes(youngster["id"])) {
       tr.classList.add('chosen-young');
     }
 
