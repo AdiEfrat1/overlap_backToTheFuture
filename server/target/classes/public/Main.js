@@ -223,12 +223,13 @@ const generateYoungSpecific = (event) => {
   const chosenID = parseInt(chosenRow.childNodes[0].innerText);
   const index = chosenYoungList.indexOf(chosenID);
 
-  if (index === -1) {
+  if (index !== -1) {
     chosenYoungList.splice(index, 1);
   }
 
   chosenRow.classList.add(CHOSEN_YOUNG_CLASS);
   chosenYoungList.unshift(chosenID);
+
   updateYoungSpecific();
 };
 
