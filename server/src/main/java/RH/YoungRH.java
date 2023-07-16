@@ -1,7 +1,7 @@
 package RH;
 
 import BL.YoungBL;
-import DAL.Young;
+import Models.Young;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

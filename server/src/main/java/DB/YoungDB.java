@@ -1,6 +1,6 @@
 package DB;
 
-import DAL.Young;
+import Models.Young;
 
 import java.util.ArrayList;
 

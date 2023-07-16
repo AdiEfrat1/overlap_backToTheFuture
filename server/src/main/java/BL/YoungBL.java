@@ -1,6 +1,7 @@
 package BL;
 
-import DAL.Young;
+import DAL.YoungDAL;
+import Models.Young;
 import DB.YoungDB;
 
 import java.util.ArrayList;
@@ -8,11 +9,11 @@ import java.util.NoSuchElementException;
 
 public class YoungBL {
 
-    private YoungDB youngDB = new YoungDB();
+    private YoungDAL youngDAL = new YoungDAL();
 
     public ArrayList<Young> getAllYoung() throws Exception {
         try {
-            return this.youngDB.youngs;
+            return this.youngDAL.getAllYoungs();
         } catch (Exception e) {
             throw new Exception("Error fetcing all youngs from DB");
         }
@@ -20,9 +21,7 @@ public class YoungBL {
 
     public Young getSpecific(int id) throws Exception {
         try {
-            return this.youngDB.youngs.stream()
-                    .filter((young) -> young.id() == id).findFirst()
-                    .orElseThrow(NoSuchElementException::new);
+            return this.youngDAL.getSpecific(id);
         } catch (Exception e) {
             throw new Exception("Error fetcing specific young { id: " + id + " } from DB");
         }
@@ -30,7 +29,7 @@ public class YoungBL {
 
     public void removeYoung(int id) throws Exception {
         try {
-            this.youngDB.youngs.removeIf((young) -> young.id() == id);
+            this.youngDAL.removeYoung(id);
         } catch (Exception e) {
             throw new Exception("Error removing specific young { id: " + id + " } from DB");
         }
@@ -38,7 +37,7 @@ public class YoungBL {
 
     public void addYoung(Young young) throws Exception {
         try {
-            this.youngDB.youngs.add(young);
+            this.youngDAL.addYoung(young);
         } catch (Exception e) {
             throw new Exception("Error add new young { id: " + young.id() + " } to DB");
         }
