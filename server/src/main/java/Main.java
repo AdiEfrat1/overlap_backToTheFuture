@@ -15,6 +15,6 @@ public class Main {
         });
 
         YoungRH youngRH = new YoungRH();
-        youngRH.rh();
+        youngRH.setRoutes();
     }
 }
