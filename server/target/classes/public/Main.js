@@ -15,7 +15,7 @@ const SPECIFIC_ATTRIBUTES = ["book", "hobby", "name"];
 const ACTIVE_SIDE_BTN_CLASS = 'active-side-btn';
 const CHOSEN_YOUNG_CLASS = 'chosen-young';
 
-let chosenYoungList = new Array();
+const chosenYoungList = new Array();
 let realTimeClock = false;
 let activeMultiSelect = false;
 
@@ -101,7 +101,7 @@ const generateDetailsContainers = () => {
 const pressedSideBtn = (event) => {
   setActiveSideBtn(event);
   clearDetails();
-  chosenYoungList = [];
+  emptyArray(chosenYoungList);
   activeMultiSelect = false;
 
   const pressedBtn = event.target;
@@ -218,7 +218,7 @@ const generateYoungSpecific = (event) => {
 
   if (!activeMultiSelect) {
     removeAllOfClass(CHOSEN_YOUNG_CLASS);
-    chosenYoungList = [];
+    emptyArray(chosenYoungList);
   }
 
   const chosenRow = chosenCell.parentElement;
@@ -252,7 +252,9 @@ const removeChosenYoungButLast = () => {
     }
   });
 
-  chosenYoungList = [chosenYoungList[0]];
+  const newest = chosenYoungList[0];
+  emptyArray(chosenYoungList);
+  chosenYoungList.unshift(newest);
 };
 
 const updateYoungSpecific = () => {
@@ -353,3 +355,5 @@ const displaySortedYoungRows = async (event) => {
 
   setYoungSortBtnActive(event);
 };
+
+const emptyArray = arr => arr.length = 0;
