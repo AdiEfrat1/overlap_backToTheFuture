@@ -22,17 +22,15 @@ public class YoungDAL {
     private YoungDB youngDB = new YoungDB();
 
     public ArrayList<Young> getAllYoungs() throws FileNotFoundException {
-        JsonElement jsonElement = new Gson().fromJson(new FileReader(this.DB_PATH), JsonElement.class);
-        JsonArray jsonArray = jsonElement.getAsJsonArray();
+        JsonArray jsonArray = this.readJsonArrayFromFile();
 
-        return jsonToYoungArrayList(jsonArray);
+        return this.jsonToYoungArrayList(jsonArray);
     }
 
     public Young getSpecific(int id) throws Exception {
-        JsonElement jsonElement = new Gson().fromJson(new FileReader(this.DB_PATH), JsonElement.class);
-        JsonArray jsonArray = jsonElement.getAsJsonArray();
+        JsonArray jsonArray = this.readJsonArrayFromFile();
 
-        return jsonToYoungArrayList(jsonArray)
+        return this.jsonToYoungArrayList(jsonArray)
                 .stream()
                 .filter((young) -> young.id() == id)
                 .findFirst()
@@ -40,13 +38,20 @@ public class YoungDAL {
     }
 
     public void removeYoung(int id) throws FileNotFoundException {
-        this.youngDB.youngs.removeIf((young) -> young.id() == id);
+        JsonArray jsonArray = this.readJsonArrayFromFile();
+        ArrayList<Young> youngs = this.jsonToYoungArrayList(jsonArray);
+        youngs.removeIf((young) -> young.id() == id);
+
+        try (FileWriter fileWriter = new FileWriter(this.DB_PATH)) {
+            fileWriter.write(this.gson.toJson(youngs));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addYoung(Young young) throws FileNotFoundException {
-        JsonElement jsonElement = new Gson().fromJson(new FileReader(this.DB_PATH), JsonElement.class);
-        JsonArray jsonArray = jsonElement.getAsJsonArray();
-        JsonObject newElement = gson.toJsonTree(young).getAsJsonObject();
+        JsonArray jsonArray = this.readJsonArrayFromFile();
+        JsonObject newElement = this.gson.toJsonTree(young).getAsJsonObject();
         jsonArray.add(newElement);
 
         try (FileWriter fileWriter = new FileWriter(this.DB_PATH)) {
@@ -59,5 +64,10 @@ public class YoungDAL {
     private ArrayList<Young> jsonToYoungArrayList(JsonArray jsonArray) {
         Type listType = new TypeToken<ArrayList<Young>>(){}.getType();
         return this.gson.fromJson(jsonArray, listType);
+    }
+
+    private JsonArray readJsonArrayFromFile() throws FileNotFoundException {
+        JsonElement jsonElement = new Gson().fromJson(new FileReader(this.DB_PATH), JsonElement.class);
+        return jsonElement.getAsJsonArray();
     }
 }
