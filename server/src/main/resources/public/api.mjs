@@ -2,7 +2,7 @@ const SERVER_URL = 'http://localhost:4567';
 
 export const getAllYoungs = async () => {
     try {
-        const response = await fetch(`${SERVER_URL}/youngs/all`);
+        const response = await fetch(`${SERVER_URL}/youngs`);
 
         if (response.ok) {
             const data = await response.json();

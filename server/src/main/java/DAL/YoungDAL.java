@@ -63,11 +63,13 @@ public class YoungDAL {
 
     private ArrayList<Young> jsonToYoungArrayList(JsonArray jsonArray) {
         Type listType = new TypeToken<ArrayList<Young>>(){}.getType();
+
         return this.gson.fromJson(jsonArray, listType);
     }
 
     private JsonArray readJsonArrayFromFile() throws FileNotFoundException {
         JsonElement jsonElement = new Gson().fromJson(new FileReader(this.DB_PATH), JsonElement.class);
+
         return jsonElement.getAsJsonArray();
     }
 }
