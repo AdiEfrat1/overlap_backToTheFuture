@@ -9,7 +9,7 @@ const YOUNG_DISPLAY_NAMES = {
   "book": "ספר",
 };
 
-const TABLE_ATTRIBUTES = ["id", "name", "city", "phone"];
+const TABLE_ATTRIBUTES = ["phone", "city", "name", "id"];
 const SPECIFIC_ATTRIBUTES = ["book", "hobby", "name"]; 
 
 const ACTIVE_SIDE_BTN_CLASS = 'active-side-btn';
@@ -181,8 +181,8 @@ const generateYoungDetails = async () => {
     sortBtnsContainer.appendChild(sortUpBtn);
     sortBtnsContainer.appendChild(sortDownBtn);
 
-    headerContent.appendChild(document.createTextNode(YOUNG_DISPLAY_NAMES[attribute]));
     headerContent.appendChild(sortBtnsContainer);
+    headerContent.appendChild(document.createTextNode(YOUNG_DISPLAY_NAMES[attribute]));
 
     header.appendChild(headerContent);
 
@@ -222,7 +222,9 @@ const generateYoungSpecific = (event) => {
   }
 
   const chosenRow = chosenCell.parentElement;
-  const chosenID = parseInt(chosenRow.childNodes[0].innerText);
+  const chosenID = parseInt(chosenRow
+    .childNodes[chosenRow.childNodes.length - 1]
+    .innerText);
   const index = chosenYoungList.indexOf(chosenID);
 
   if (index !== -1) {
@@ -245,7 +247,7 @@ const removeChosenYoungButLast = () => {
   const chosenYoungs = document.getElementsByClassName(CHOSEN_YOUNG_CLASS);
 
   Array.from(chosenYoungs).forEach((currChosen) => {
-    const currID = parseInt(currChosen.childNodes[0].innerText);
+    const currID = parseInt(currChosen.childNodes[currChosen.childNodes.length - 1].innerText);
 
     if (chosenYoungList[0] !== currID) {
       currChosen.classList.remove(CHOSEN_YOUNG_CLASS);
@@ -340,14 +342,12 @@ const displaySortedYoungRows = async (event) => {
       tr.classList.add('chosen-young');
     }
 
-    Object.keys(youngster).forEach((key) => {
-      if (TABLE_ATTRIBUTES.includes(key)) {
-        const td = document.createElement('td');
-        td.appendChild(document.createTextNode(youngster[key]));
-        td.addEventListener("click", generateYoungSpecific);
+    TABLE_ATTRIBUTES.forEach((key) => {
+      const td = document.createElement('td');
+      td.appendChild(document.createTextNode(youngster[key]));
+      td.addEventListener("click", generateYoungSpecific);
 
-        tr.appendChild(td);
-      }
+      tr.appendChild(td);
     });
 
     tbody.appendChild(tr);

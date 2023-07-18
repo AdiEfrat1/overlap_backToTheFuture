@@ -185,8 +185,6 @@ button:hover {
     font-size: 3vmin;
 }
 
-
-
 .active-side-btn {
     background: #0c7285;
     border: calc(0.2vh + 0.2vw) solid white;
@@ -195,15 +193,14 @@ button:hover {
 #young-table {
     table-layout: fixed;
     text-align: right;
-    width: 90%;
-    height: 20%;
     margin: auto;
     border-spacing: calc(0.1vh + 0.1vw);
 }
 
 #young-table-head {
+    display: block;
+    direction: ltr;
     color: #ffffff;
-    background-color: #000000;
 }
 
 #young-table-body::before {
@@ -214,9 +211,11 @@ button:hover {
 }
 
 #young-table-body {
-    background-color: #c9c9c9;
+    display:block;
+    height: 30vh;
+    direction: ltr;
+    overflow: auto;
     cursor: pointer;
-    overflow-y: scroll;
 }
 
 
@@ -224,17 +223,26 @@ button:hover {
     background-color: #dcb2c7;
 }
 
-.chosen-young {
-    background-color: #79a8c9;
-}
-
 .young-header-content {
     display: flex;
 }
 
 #young-table td, th {
+    width: 14vw;
     padding: 1%;
     padding-right: 2%;
+}
+
+#young-table-body tr {
+    background-color: #c9c9c9;
+}
+
+.chosen-young {
+    background-color: #79a8c9 !important;
+}
+
+#young-table-head th {
+    background-color: #000000;
 }
 
 #all-details-content {
