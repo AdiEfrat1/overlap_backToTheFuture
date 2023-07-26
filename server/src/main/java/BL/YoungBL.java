@@ -41,7 +41,7 @@ public class YoungBL {
 
     public void addYoung(Young young) throws Exception {
         try {
-            this.youngDAL.addYoung(young);
+            this.youngDAL.add(young);
         } catch (Exception e) {
             throw new Exception("Error add new young { id: " + young.id() + " } to DB");
         }

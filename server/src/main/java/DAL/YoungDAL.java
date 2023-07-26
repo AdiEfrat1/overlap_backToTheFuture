@@ -51,7 +51,7 @@ public class YoungDAL {
         }
     }
 
-    public void addYoung(Young young) throws Exception {
+    public void add(Young young) throws Exception {
         try {
             Document newDoc = Document
                     .parse(gson.toJson(young));
