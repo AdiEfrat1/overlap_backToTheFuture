@@ -14,7 +14,7 @@ public class YoungDAL {
     private final MongoClient MONGO_CLIENT = MongoClients.create(this.CONNECTION_URI);
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public String getAll() throws Exception {
+    public Young[] getAll() throws Exception {
         try {
             MongoCursor<Document> cursor = this.getCollection().find().iterator();
             JsonArray jsonArray = new JsonArray();
@@ -24,17 +24,17 @@ public class YoungDAL {
                 jsonArray.add(JsonParser.parseString(document.toJson()));
             }
 
-            return jsonArray.toString();
+            return gson.fromJson(jsonArray.toString(), Young[].class);
         } catch (Exception e) {
             throw new Exception("Connection to database failed");
         }
     }
 
-    public String getById(int id) throws Exception {
+    public Young getById(int id) throws Exception {
         try {
             Document doc = this.getCollection().find(eq("id", id)).first();
             if (doc != null) {
-                return doc.toJson();
+                return gson.fromJson(doc.toJson(), Young.class);
             } else {
                 throw new Exception("Could not find the required document in database");
             }

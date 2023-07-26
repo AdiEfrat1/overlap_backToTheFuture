@@ -17,7 +17,7 @@ public class YoungBL {
 
     public Young[] getAllYoung() throws Exception {
         try {
-            return gson.fromJson(this.youngDAL.getAll(), Young[].class);
+            return this.youngDAL.getAll();
         } catch (Exception e) {
             throw new Exception("Error fetcing all youngs from DB");
         }
@@ -25,9 +25,7 @@ public class YoungBL {
 
     public Young getYoungById(int id) throws Exception {
         try {
-            String documentString = this.youngDAL.getById(id);
-
-            return gson.fromJson(documentString, Young.class);
+            return this.youngDAL.getById(id);
         } catch (Exception e) {
             throw new Exception("Error fetcing specific young { id: " + id + " } from DB");
         }
