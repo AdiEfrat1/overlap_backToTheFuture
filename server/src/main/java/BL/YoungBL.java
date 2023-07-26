@@ -3,6 +3,8 @@ package BL;
 import DAL.YoungDAL;
 import Models.Young;
 import DB.YoungDB;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -10,6 +12,8 @@ import java.util.NoSuchElementException;
 public class YoungBL {
 
     private YoungDAL youngDAL = new YoungDAL();
+
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public ArrayList<Young> getAllYoung() throws Exception {
         try {
@@ -21,7 +25,9 @@ public class YoungBL {
 
     public Young getSpecific(int id) throws Exception {
         try {
-            return this.youngDAL.getSpecific(id);
+            String documentString = this.youngDAL.getSpecific(id);
+
+            return gson.fromJson(documentString, Young.class);
         } catch (Exception e) {
             throw new Exception("Error fetcing specific young { id: " + id + " } from DB");
         }
