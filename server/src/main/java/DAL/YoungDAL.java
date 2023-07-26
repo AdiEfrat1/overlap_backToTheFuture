@@ -11,14 +11,12 @@ import static com.mongodb.client.model.Filters.eq;
 public class YoungDAL {
     private final String CONNECTION_URI = "mongodb://localhost:27017/?retryWrites=true&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&3t.uriVersion=3&3t.connection.name=Local+-+imported+on+18+Jul+2023&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true";
 
+    private final MongoClient MONGO_CLIENT = MongoClients.create(this.CONNECTION_URI);
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public String getAll() throws Exception {
-        try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
-            MongoDatabase database = mongoClient.getDatabase("local");
-            MongoCollection<Document> collection = database.getCollection("youngs");
-
-            MongoCursor<Document> cursor = collection.find().iterator();
+        try {
+            MongoCursor<Document> cursor = this.getCollection().find().iterator();
             JsonArray jsonArray = new JsonArray();
 
             while (cursor.hasNext()) {
@@ -34,10 +32,8 @@ public class YoungDAL {
     }
 
     public String getById(int id) throws Exception {
-        try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
-            MongoDatabase database = mongoClient.getDatabase("local");
-            MongoCollection<Document> collection = database.getCollection("youngs");
-            Document doc = collection.find(eq("_id", id)).first();
+        try {
+            Document doc = this.getCollection().find(eq("_id", id)).first();
             if (doc != null) {
                 return this.replaceIdName(doc.toJson(), "_id", "id");
             } else {
@@ -49,25 +45,19 @@ public class YoungDAL {
     }
 
     public void removeById(int id) throws Exception {
-        try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
-            MongoDatabase database = mongoClient.getDatabase("local");
-            MongoCollection<Document> collection = database.getCollection("youngs");
-
-            collection.deleteOne(eq("_id", id));
+        try {
+            this.getCollection().deleteOne(eq("_id", id));
         } catch (Exception e) {
             throw new Exception("Could not remove young from Database");
         }
     }
 
     public void addYoung(Young young) throws Exception {
-        try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
-            MongoDatabase database = mongoClient.getDatabase("local");
-            MongoCollection<Document> collection = database.getCollection("youngs");
-
+        try {
             Document newDoc = Document
                     .parse(this.replaceIdName(gson.toJson(young), "id", "_id"));
 
-            collection.insertOne(newDoc);
+            this.getCollection().insertOne(newDoc);
         } catch (Exception e) {
             throw new Exception("Could not add young to Database");
         }
@@ -80,5 +70,12 @@ public class YoungDAL {
         jsonObject.addProperty(newName, oldValue);
 
         return jsonObject.toString();
+    }
+
+    private MongoCollection<Document> getCollection() {
+        MongoDatabase database = this.MONGO_CLIENT.getDatabase("local");
+
+        return database.getCollection("youngs");
+
     }
 }
