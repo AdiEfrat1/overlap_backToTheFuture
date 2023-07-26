@@ -2,32 +2,25 @@ package DAL;
 
 import Models.Young;
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import com.mongodb.client.*;
 import org.bson.Document;
 
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
 import static com.mongodb.client.model.Filters.eq;
 
 public class YoungDAL {
-
-    private final String DB_PATH = "C:/Adi Overlap/overlap_backToTheFuture/server/src/main/java/DB/youngs.json";
-
     private final String CONNECTION_URI = "mongodb://localhost:27017/?retryWrites=true&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000&3t.uriVersion=3&3t.connection.name=Local+-+imported+on+18+Jul+2023&3t.alwaysShowAuthDB=true&3t.alwaysShowDBFromUserRole=true";
 
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public String getAllYoungs() throws Exception {
+    public String getAll() throws Exception {
         try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
             MongoDatabase database = mongoClient.getDatabase("local");
             MongoCollection<Document> collection = database.getCollection("youngs");
 
             MongoCursor<Document> cursor = collection.find().iterator();
-
             JsonArray jsonArray = new JsonArray();
+
             while (cursor.hasNext()) {
                 Document document = cursor.next();
                 jsonArray.add(JsonParser.parseString(
@@ -40,7 +33,7 @@ public class YoungDAL {
         }
     }
 
-    public String getSpecific(int id) throws Exception {
+    public String getById(int id) throws Exception {
         try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
             MongoDatabase database = mongoClient.getDatabase("local");
             MongoCollection<Document> collection = database.getCollection("youngs");
@@ -55,7 +48,7 @@ public class YoungDAL {
         }
     }
 
-    public void removeYoung(int id) throws Exception {
+    public void removeById(int id) throws Exception {
         try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
             MongoDatabase database = mongoClient.getDatabase("local");
             MongoCollection<Document> collection = database.getCollection("youngs");
@@ -78,12 +71,6 @@ public class YoungDAL {
         } catch (Exception e) {
             throw new Exception("Could not add young to Database");
         }
-    }
-
-    private ArrayList<Young> jsonToYoungArrayList(JsonArray jsonArray) {
-        Type listType = new TypeToken<ArrayList<Young>>(){}.getType();
-
-        return this.gson.fromJson(jsonArray, listType);
     }
 
     private String replaceIdName(String jsonString, String oldName, String newName) {

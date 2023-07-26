@@ -19,15 +19,15 @@ public class YoungBL {
         try {
             Type listType = new TypeToken<ArrayList<Young>>(){}.getType();
 
-            return gson.fromJson(this.youngDAL.getAllYoungs(), listType);
+            return gson.fromJson(this.youngDAL.getAll(), listType);
         } catch (Exception e) {
             throw new Exception("Error fetcing all youngs from DB");
         }
     }
 
-    public Young getSpecific(int id) throws Exception {
+    public Young getYoungById(int id) throws Exception {
         try {
-            String documentString = this.youngDAL.getSpecific(id);
+            String documentString = this.youngDAL.getById(id);
 
             return gson.fromJson(documentString, Young.class);
         } catch (Exception e) {
@@ -35,9 +35,9 @@ public class YoungBL {
         }
     }
 
-    public void removeYoung(int id) throws Exception {
+    public void removeYoungById(int id) throws Exception {
         try {
-            this.youngDAL.removeYoung(id);
+            this.youngDAL.removeById(id);
         } catch (Exception e) {
             throw new Exception("Error removing specific young { id: " + id + " } from DB");
         }

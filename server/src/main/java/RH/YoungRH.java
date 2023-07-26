@@ -47,7 +47,7 @@ public class YoungRH {
 
     private boolean removeYoung(Request req, Response res) {
         try {
-            this.youngBL.removeYoung(Integer.parseInt(req.params("id")));
+            this.youngBL.removeYoungById(Integer.parseInt(req.params("id")));
 
             return true;
         } catch (Exception e) {
@@ -84,7 +84,7 @@ public class YoungRH {
 
         try {
             Young young = this.youngBL
-                    .getSpecific(Integer.parseInt(req.params("id")));
+                    .getYoungById(Integer.parseInt(req.params("id")));
 
             return this.gson.toJson(young);
         } catch (NoSuchElementException e) {
