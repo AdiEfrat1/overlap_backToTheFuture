@@ -5,7 +5,9 @@ import Models.Young;
 import DB.YoungDB;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -17,7 +19,9 @@ public class YoungBL {
 
     public ArrayList<Young> getAllYoung() throws Exception {
         try {
-            return this.youngDAL.getAllYoungs();
+            Type listType = new TypeToken<ArrayList<Young>>(){}.getType();
+
+            return gson.fromJson(this.youngDAL.getAllYoungs(), listType);
         } catch (Exception e) {
             throw new Exception("Error fetcing all youngs from DB");
         }

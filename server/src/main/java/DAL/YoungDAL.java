@@ -4,11 +4,8 @@ import DB.YoungDB;
 import Models.Young;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.mongodb.client.*;
 import org.bson.Document;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -30,10 +27,23 @@ public class YoungDAL {
 
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public ArrayList<Young> getAllYoungs() throws FileNotFoundException {
-        JsonArray jsonArray = this.readJsonArrayFromFile();
+    public String getAllYoungs() throws Exception {
+        try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
+            MongoDatabase database = mongoClient.getDatabase("local");
+            MongoCollection<Document> collection = database.getCollection("youngs");
 
-        return this.jsonToYoungArrayList(jsonArray);
+            MongoCursor<Document> cursor = collection.find().iterator();
+
+            JsonArray jsonArray = new JsonArray();
+            while (cursor.hasNext()) {
+                Document document = cursor.next();
+                jsonArray.add(JsonParser.parseString(this.jsonWithFixedIdName(document.toJson())));
+            }
+
+            return jsonArray.toString();
+        } catch (Exception e) {
+            throw new Exception("Connection to database failed");
+        }
     }
 
     public String getSpecific(int id) throws Exception {
@@ -63,6 +73,10 @@ public class YoungDAL {
         }
     }
 
+    private JsonArray readJsonArrayFromFile() {
+        return null;
+    }
+
     public void addYoung(Young young) throws FileNotFoundException {
         JsonArray jsonArray = this.readJsonArrayFromFile();
         JsonObject newElement = this.gson.toJsonTree(young).getAsJsonObject();
@@ -79,12 +93,6 @@ public class YoungDAL {
         Type listType = new TypeToken<ArrayList<Young>>(){}.getType();
 
         return this.gson.fromJson(jsonArray, listType);
-    }
-
-    private JsonArray readJsonArrayFromFile() throws FileNotFoundException {
-        JsonElement jsonElement = new Gson().fromJson(new FileReader(this.DB_PATH), JsonElement.class);
-
-        return jsonElement.getAsJsonArray();
     }
 
     private String jsonWithFixedIdName(String jsonString) {
