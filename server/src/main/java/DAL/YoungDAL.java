@@ -62,15 +62,14 @@ public class YoungDAL {
         }
     }
 
-    public void removeYoung(int id) throws FileNotFoundException {
-        JsonArray jsonArray = this.readJsonArrayFromFile();
-        ArrayList<Young> youngs = this.jsonToYoungArrayList(jsonArray);
-        youngs.removeIf((young) -> young.id() == id);
+    public void removeYoung(int id) throws Exception {
+        try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
+            MongoDatabase database = mongoClient.getDatabase("local");
+            MongoCollection<Document> collection = database.getCollection("youngs");
 
-        try (FileWriter fileWriter = new FileWriter(this.DB_PATH)) {
-            fileWriter.write(this.gson.toJson(youngs));
-        } catch (IOException e) {
-            e.printStackTrace();
+            collection.deleteOne(eq("_id", id));
+        } catch (Exception e) {
+            throw new Exception("Could not remove young from Database");
         }
     }
 
@@ -88,7 +87,7 @@ public class YoungDAL {
 
             collection.insertOne(newDoc);
         } catch (Exception e) {
-            throw new Exception("Connection to database failed");
+            throw new Exception("Could not add young to Database");
         }
     }
 
