@@ -15,11 +15,9 @@ public class YoungBL {
 
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public ArrayList<Young> getAllYoung() throws Exception {
+    public Young[] getAllYoung() throws Exception {
         try {
-            Type listType = new TypeToken<ArrayList<Young>>(){}.getType();
-
-            return gson.fromJson(this.youngDAL.getAll(), listType);
+            return gson.fromJson(this.youngDAL.getAll(), Young[].class);
         } catch (Exception e) {
             throw new Exception("Error fetcing all youngs from DB");
         }
