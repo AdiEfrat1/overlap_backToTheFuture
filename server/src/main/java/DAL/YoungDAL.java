@@ -37,7 +37,8 @@ public class YoungDAL {
             JsonArray jsonArray = new JsonArray();
             while (cursor.hasNext()) {
                 Document document = cursor.next();
-                jsonArray.add(JsonParser.parseString(this.jsonWithFixedIdName(document.toJson())));
+                jsonArray.add(JsonParser.parseString(
+                        this.replaceIdName(document.toJson(), "_id", "id")));
             }
 
             return jsonArray.toString();
@@ -52,7 +53,7 @@ public class YoungDAL {
             MongoCollection<Document> collection = database.getCollection("youngs");
             Document doc = collection.find(eq("_id", id)).first();
             if (doc != null) {
-                return this.jsonWithFixedIdName(doc.toJson());
+                return this.replaceIdName(doc.toJson(), "_id", "id");
             } else {
                 throw new Exception("Could not find the required document in database");
             }
@@ -77,15 +78,17 @@ public class YoungDAL {
         return null;
     }
 
-    public void addYoung(Young young) throws FileNotFoundException {
-        JsonArray jsonArray = this.readJsonArrayFromFile();
-        JsonObject newElement = this.gson.toJsonTree(young).getAsJsonObject();
-        jsonArray.add(newElement);
+    public void addYoung(Young young) throws Exception {
+        try (MongoClient mongoClient = MongoClients.create(this.CONNECTION_URI)) {
+            MongoDatabase database = mongoClient.getDatabase("local");
+            MongoCollection<Document> collection = database.getCollection("youngs");
 
-        try (FileWriter fileWriter = new FileWriter(this.DB_PATH)) {
-            fileWriter.write(jsonArray.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+            Document newDoc = Document
+                    .parse(this.replaceIdName(gson.toJson(young), "id", "_id"));
+
+            collection.insertOne(newDoc);
+        } catch (Exception e) {
+            throw new Exception("Connection to database failed");
         }
     }
 
@@ -95,11 +98,11 @@ public class YoungDAL {
         return this.gson.fromJson(jsonArray, listType);
     }
 
-    private String jsonWithFixedIdName(String jsonString) {
+    private String replaceIdName(String jsonString, String oldName, String newName) {
         JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
-        String oldValue = jsonObject.get("_id").getAsString();
-        jsonObject.remove("_id");
-        jsonObject.addProperty("id", oldValue);
+        int oldValue = jsonObject.get(oldName).getAsInt();
+        jsonObject.remove(oldName);
+        jsonObject.addProperty(newName, oldValue);
 
         return jsonObject.toString();
     }
