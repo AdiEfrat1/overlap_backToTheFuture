@@ -27,8 +27,7 @@ public class YoungBL {
         try {
             String documentString = this.youngDAL.getSpecific(id);
 
-            System.out.println(gson.fromJson(documentString, Young.class));
-            return null;
+            return gson.fromJson(documentString, Young.class);
         } catch (Exception e) {
             throw new Exception("Error fetcing specific young { id: " + id + " } from DB");
         }

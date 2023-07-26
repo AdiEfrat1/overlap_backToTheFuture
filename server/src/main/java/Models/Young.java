@@ -4,18 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Young {
 
-    @SerializedName("_id")
     private int id;
-    @SerializedName("name")
     private String name;
-    @SerializedName("city")
     private String city;
-    @SerializedName("phone")
     private String phone;
-    @SerializedName("hobby")
     private String hobby;
-
-    @SerializedName("book")
     private String book;
 
     public Young(int id, String name, String city, String phone, String hobby, String book) {

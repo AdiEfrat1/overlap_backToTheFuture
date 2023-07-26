@@ -42,7 +42,7 @@ public class YoungDAL {
             MongoCollection<Document> collection = database.getCollection("youngs");
             Document doc = collection.find(eq("_id", id)).first();
             if (doc != null) {
-                return doc.toJson();
+                return this.jsonWithFixedIdName(doc.toJson());
             } else {
                 throw new Exception("Could not find the required document in database");
             }
@@ -85,5 +85,14 @@ public class YoungDAL {
         JsonElement jsonElement = new Gson().fromJson(new FileReader(this.DB_PATH), JsonElement.class);
 
         return jsonElement.getAsJsonArray();
+    }
+
+    private String jsonWithFixedIdName(String jsonString) {
+        JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
+        String oldValue = jsonObject.get("_id").getAsString();
+        jsonObject.remove("_id");
+        jsonObject.addProperty("id", oldValue);
+
+        return jsonObject.toString();
     }
 }
